@@ -13,7 +13,7 @@ export CD_HISTORY_FILE_PATH="${HOME}/.cd_history"
 ~/.local/bin/
 ```
 
-ensure ~/.local/bin is added to the PATH
+### Ensure ~/.local/bin is added to the PATH
 
 ```
 export PATH=$PATH:$HOME/.local/bin
