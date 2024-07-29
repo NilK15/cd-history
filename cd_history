@@ -1,0 +1,28 @@
+#!/bin/bash
+
+cd_history() {
+
+	if [ ! -f "$CD_HISTORY_FILE_PATH" ]; then
+		export CD_HISTORY_FILE_PATH="${HOME}/.cd_history"
+		touch "${CD_HISTORY_FILE_PATH}"
+		echo -e "\nCreated ${CD_HISTORY_FILE_PATH} file"
+	fi
+
+	if [ $# -eq 0 ]; then
+		source show_history
+	else
+		if [ -d "${1}" ]; then
+			local PWD
+			builtin cd "${1}" || return
+			PWD="$(pwd)"
+			if ! grep -wq "${PWD}" "$CD_HISTORY_FILE_PATH"; then
+				echo "${PWD}" >>"${CD_HISTORY_FILE_PATH}"
+			fi
+		else
+			echo "directory doesn't exist"
+		fi
+	fi
+
+}
+
+cd_history "$@"

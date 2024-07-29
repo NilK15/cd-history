@@ -1,0 +1,32 @@
+#!/bin/bash
+
+showHistory() {
+
+	local COUNT=1
+	local DIR_NUMBER
+	local PATH_OF_DIR
+
+	echo ""
+
+	if [ ! -f "$CD_HISTORY_FILE_PATH" ]; then
+		echo "You have to build your cd history first, use cd to navigate to directories to build the history"
+		return 1
+	fi
+
+	# Reads in ~/.cd_history file to output directories for user selection
+	while read -r p; do
+		echo "$COUNT $p"
+		COUNT=$((COUNT + 1))
+	done <"${CD_HISTORY_FILE_PATH}"
+
+	echo -en "\nSelect which directory to go to: "
+
+	read -r DIR_NUMBER
+
+	# Gets user's desired selection from ~/.cd_history file
+	PATH_OF_DIR=$(head -"${DIR_NUMBER}" "${CD_HISTORY_FILE_PATH}" | tail -1)
+
+	builtin cd "${PATH_OF_DIR}" || return
+}
+
+showHistory
