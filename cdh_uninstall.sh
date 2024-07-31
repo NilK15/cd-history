@@ -1,4 +1,4 @@
 #TODO: Revert install by removing:
-#* alias cd
+#* unalias cd
 #* $CD_HISTORY_PATH
 #* removing symlinks

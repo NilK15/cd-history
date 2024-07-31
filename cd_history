@@ -2,11 +2,13 @@
 
 cd_history() {
 
-	if [ ! -f "$CD_HISTORY_FILE_PATH" ]; then
-		export CD_HISTORY_FILE_PATH="${HOME}/.cd_history"
-		touch "${CD_HISTORY_FILE_PATH}"
-		echo -e "\nCreated ${CD_HISTORY_FILE_PATH} file"
-	fi
+	# Checks if $HOME/.cd_history file exists, if not, creates it
+	# if [ ! -f "$CD_HISTORY_FILE_PATH" ]; then
+	# 	echo "No $HOME/.cd_history file detected, creating one..."
+	# 	export CD_HISTORY_FILE_PATH="${HOME}/.cd_history"
+	# 	touch "${CD_HISTORY_FILE_PATH}"
+	# 	echo -e "\nCreated ${CD_HISTORY_FILE_PATH} file"
+	# fi
 
 	if [ $# -eq 0 ]; then
 		source show_history
@@ -19,7 +21,7 @@ cd_history() {
 				echo "${PWD}" >>"${CD_HISTORY_FILE_PATH}"
 			fi
 		else
-			echo "directory doesn't exist"
+			echo "Directory doesn't exist"
 		fi
 	fi
 
