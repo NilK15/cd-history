@@ -1,12 +1,12 @@
 # IMPORTANT
 
-This program replaces cd by overwriting it with an alias, if you are already 
-using cd as an alias, this will not work for you, unless you modify the 
+This program replaces cd by overwriting it with an alias, if you are already
+using cd as an alias, this will not work for you, unless you modify the
 existing alias to something else.
 
-# Instructions
+## Instructions
 
-## Ensure you are in the cd-history folder then run
+### STEP 1: Ensure you are in the cd-history folder then run
 
 ```[BASH]
 
@@ -14,7 +14,7 @@ source ./cdh_install.sh
 
 ```
 
-## Add the following to your configs (typically ```~/.zshrc```)
+### STEP 2: Add the following to your configs (typically ```~/.zshrc```)
 
 ```[BASH]
 
