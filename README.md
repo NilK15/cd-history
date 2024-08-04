@@ -1,20 +1,24 @@
+# IMPORTANT
+
+This program replaces cd by overwriting it with an alias, if you are already 
+using cd as an alias, this will not work for you, unless you modify the 
+existing alias to something else.
+
 # Instructions
 
-## Add the following to your configs (typically ```~/.zshrc```):
+## Ensure you are in the cd-history folder then run
+
+```[BASH]
+
+source ./cdh_install.sh
 
 ```
-# Env variable used by the scripts
-export CD_HISTORY_FILE_PATH="${HOME}/.cd_history"
-```
 
-## Create symlinks for the scripts into:
+## Add the following to your configs (typically ```~/.zshrc```)
 
-```
-~/.local/bin/
-```
+```[BASH]
 
-### Ensure ~/.local/bin is added to the PATH in your configs (typically ```~/.zshrc```):
+# Env file containing variables used by the scripts
+source cdh_env
 
-```
-export PATH=$PATH:$HOME/.local/bin
 ```

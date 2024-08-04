@@ -1,0 +1,12 @@
+# Set alias
+alias cd="source cd_history"
+
+# Set .cd_history file path
+export CD_HISTORY_FILE_PATH="$HOME/.cd_history"
+
+#TODO: Assign a function instead of alias
+# Set function
+# cd() {
+# 	source cd_history
+# }
+# export cd
