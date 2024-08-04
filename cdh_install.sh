@@ -9,17 +9,17 @@ COLOR_OFF='\033[0m'      # Text Reset
 CHECKMARK="\xE2\x9C\x94" # Checkmark sign
 X="\xE2\x9D\x8C"
 
-GREEN_CHECK="$GREEN$CHECKMARK$COLOR_OFF"
-RED_CROSS="$RED$X$COLOR_OFF"
+GREEN_CHECK="${GREEN}${CHECKMARK}${COLOR_OFF}"
+RED_CROSS="${RED}${X}${COLOR_OFF}"
 
-# Checks if symbolic links to $HOME/.local/bin already exist, if not, creates them
+# Checks if symbolic links to ${HOME}/.local/bin already exist, if not, creates them
 checkSymLinks() {
-	if [[ ! (-L "$HOME/.local/bin/cd_history" && -L "$HOME/.local/bin/show_history" && -L "$HOME/.local/bin/cdh_env") ]]; then
-		ln -sf "$(pwd -P)/cd_history" "$HOME/.local/bin" && ln -sf "$(pwd -P)/show_history" "$HOME/.local/bin" && ln -sf "$(pwd -P)/cdh_env" "$HOME/.local/bin"
-		echo -e "\t$GREEN_CHECK Creating symlinks in $HOME/.local/bin..."
+	if [[ ! (-L "${HOME}/.local/bin/cd_history" && -L "$HOME/.local/bin/show_history" && -L "$HOME/.local/bin/cdh_env") ]]; then
+		ln -s "$(pwd -P)/cd_history" "${HOME}/.local/bin" && ln -s "$(pwd -P)/show_history" "$HOME/.local/bin" && ln -s "$(pwd -P)/cdh_env" "$HOME/.local/bin"
+		echo -e "\t${GREEN_CHECK} Creating symlinks in ${HOME}/.local/bin..."
 	else
-		echo -e "\n\t$RED_CROSS There are already scripts in the $HOME/.local/bin folder with the same names:"
-		echo -e "\t\t${RED}cd_history ${COLOR_OFF}and ${Red}show_history${Color_Off}"
+		echo -e "\n\t${RED_CROSS} There are already scripts in the ${HOME}/.local/bin folder with the same names:"
+		echo -e "\t\t${RED}cd_history ${COLOR_OFF}and ${RED}show_history${COLOR_OFF}"
 		echo -e "\tDue to this conflict, unable to proceed with install."
 		echo -e "\tPlease rename/remove the mentioned existing files, then rerun this script.\n"
 
@@ -46,23 +46,23 @@ checkSymLinks() {
 # 	fi
 # }
 #
-# # Checks if $HOME/.local/bin already exists, if not, creates it
+# # Checks if ${HOME}/.local/bin already exists, if not, creates it
 checkLocalBinDir() {
-	if [ ! -d "$HOME/.local/bin/" ]; then
-		echo -e "\tCreating ~/.local/bin directory..."
-		mkdir "$HOME/.local/bin"
+	if [ ! -d "${HOME}/.local/bin/" ]; then
+		echo -e "\t${GREEN_CHECK} Creating ~/.local/bin directory..."
+		mkdir "${HOME}/.local/bin"
 	else
-		echo -e "\t$GREEN_CHECK Directory $HOME/.local/bin already exists, skipping..."
+		echo -e "\t${GREEN_CHECK} Directory ${HOME}/.local/bin already exists, skipping..."
 	fi
 }
 #
-# Checks if $HOME/.local/bin is added to PATH, if not, adds it
+# Checks if ${HOME}/.local/bin is added to PATH, if not, adds it
 checkPath() {
-	if [[ ! ":$PATH:" == *":$HOME/.local/bin:"* ]]; then
-		echo -e "\t$GREEN_CHECK Adding ~/.local/bin to PATH..."
-		export PATH=$PATH:$HOME/.local/bin
+	if [[ ! ":${PATH}:" == *":${HOME}/.local/bin:"* ]]; then
+		echo -e "\t${GREEN_CHECK} Adding ~/.local/bin to PATH..."
+		export PATH=${PATH}:${HOME}/.local/bin
 	else
-		echo -e "\t$GREEN_CHECK The path ~/.local/bin already exists in PATH, skipping..."
+		echo -e "\t${GREEN_CHECK} The path ~/.local/bin already exists in PATH, skipping..."
 	fi
 }
 #
@@ -77,33 +77,44 @@ checkPath() {
 # 	fi
 # }
 #
-# Checks if $HOME/.cd_history file exists, if not, creates it
+# Checks if ${HOME}/.cd_history file exists, if not, creates it
 checkCdHistoryFile() {
-	local CD_HISTORY_FILE_PATH="$HOME/.cd_history"
+	local CD_HISTORY_FILE_PATH="${HOME}/.cd_history"
 	if [ ! -f "$CD_HISTORY_FILE_PATH" ]; then
-		echo -e "\tNo $HOME/.cd_history file detected, creating one..."
+		echo -e "\t${GREEN_CHECK} No ${HOME}/.cd_history file detected, creating one..."
 		export CD_HISTORY_FILE_PATH="${HOME}/.cd_history"
 		touch "${CD_HISTORY_FILE_PATH}"
-		echo -e -e "\nCreated ${CD_HISTORY_FILE_PATH} file"
+		echo -e "\t${GREEN_CHECK} Created ${CD_HISTORY_FILE_PATH} file"
 	else
-		echo -e "\t$GREEN_CHECK File $HOME/.cd_history file exists already, skipping..."
+		echo -e "\t${GREEN_CHECK} File ${HOME}/.cd_history file exists already, skipping..."
 	fi
 }
 
-initialization() {
-	checkPath
-	# checkEnv
-	checkLocalBinDir
-	checkCdHistoryFile
-}
+# initialization() {
+# 	checkPath
+# 	# checkEnv
+# 	# checkLocalBinDir
+# 	checkCdHistoryFile
+# }
 
 install() {
-	checkSymLinks
 
+	cat <./logo.txt
+
+	echo ""
+
+	checkLocalBinDir
+	checkSymLinks
 	if [ $? -eq 1 ]; then
 		return 1
 	else
-		initialization
+		checkPath
+		checkCdHistoryFile
+	fi
+	# if [ $? -eq 1 ]; then
+	# 	return 1
+	# else
+	# 	initialization
 	# else
 	# 	checkAlias
 	# 	if [ $? -eq 1 ]; then
@@ -111,10 +122,10 @@ install() {
 	# 	else
 	# 		initialization
 	# 	fi
-	fi
+	# fi
 
 	echo -e "\n\tAdd the following into your ~/.zshrc or related config:"
-	echo -e "\n\t$GREEN source cdh_env$COLOR_OFF"
+	echo -e "\n\t\t${GREEN}source cdh_env${COLOR_OFF}"
 }
 
 install

@@ -22,3 +22,10 @@ source ./cdh_install.sh
 source cdh_env
 
 ```
+
+### STEP #: source your configs again, for example
+
+```[BASH]
+source ~/.zshrc
+
+```
