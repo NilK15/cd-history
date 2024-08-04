@@ -4,7 +4,7 @@ This program replaces cd by overwriting it with an alias, if you are already
 using cd as an alias, this will not work for you, unless you modify the
 existing alias to something else.
 
-## Instructions
+## Installation
 
 ### STEP 1: Ensure you are in the cd-history folder then run
 
