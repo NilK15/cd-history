@@ -3,7 +3,13 @@
 cd_history() {
 
 	if [ $# -eq 0 ]; then
-		source show_history
+
+		if [ ! -s $HOME/.cd_history ]; then
+			echo "No directories to choose from, cd into a few directories to build a list!"
+			return 1
+		else
+			source show_history
+		fi
 	else
 		if [ -d "${1}" ]; then
 			local PWD

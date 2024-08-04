@@ -15,7 +15,7 @@ RED_CROSS="$RED$X$COLOR_OFF"
 # Checks if symbolic links to $HOME/.local/bin already exist, if not, creates them
 checkSymLinks() {
 	if [[ ! (-L "$HOME/.local/bin/cd_history" && -L "$HOME/.local/bin/show_history" && -L "$HOME/.local/bin/cdh_env") ]]; then
-		ln -s "$(pwd -P)/cd_history" "$HOME/.local/bin" && ln -s "$(pwd -P)/show_history" "$HOME/.local/bin" && ln -s "$(pwd -P)/cdh_env" "$HOME/.local/bin"
+		ln -sf "$(pwd -P)/cd_history" "$HOME/.local/bin" && ln -sf "$(pwd -P)/show_history" "$HOME/.local/bin" && ln -sf "$(pwd -P)/cdh_env" "$HOME/.local/bin"
 		echo -e "\t$GREEN_CHECK Creating symlinks in $HOME/.local/bin..."
 	else
 		echo -e "\n\t$RED_CROSS There are already scripts in the $HOME/.local/bin folder with the same names:"
@@ -59,8 +59,8 @@ checkLocalBinDir() {
 # Checks if $HOME/.local/bin is added to PATH, if not, adds it
 checkPath() {
 	if [[ ! ":$PATH:" == *":$HOME/.local/bin:"* ]]; then
-		echo -e "\tAdding ~/.local/bin to PATH..."
-		export PATH=$PATH:/Users/sunil/.local/bin
+		echo -e "\t$GREEN_CHECK Adding ~/.local/bin to PATH..."
+		export PATH=$PATH:$HOME/.local/bin
 	else
 		echo -e "\t$GREEN_CHECK The path ~/.local/bin already exists in PATH, skipping..."
 	fi
@@ -112,6 +112,9 @@ install() {
 	# 		initialization
 	# 	fi
 	fi
+
+	echo -e "\n\tAdd the following into your ~/.zshrc or related config:"
+	echo -e "\n\t$GREEN source cdh_env$COLOR_OFF"
 }
 
 install
