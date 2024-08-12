@@ -2,6 +2,7 @@
 
 #TODO: MAYBE provide options for default locations, or an option to provide directory to symlink into
 #TODO: Create options, and then replace installation/uninstallations/env script files all in one file by checking opts
+#TODO: E.g, cdh --install, cdh --uninstall, cdh --env
 
 RED='\033[0;31m'         # Red
 GREEN='\033[0;32m'       # Green
@@ -26,26 +27,7 @@ checkSymLinks() {
 		return 1
 	fi
 }
-#
-# # Checks if alias cd already exists, if not, creates it
-# TODO: Remove if using cdh_env to source in ~/.zshrc
-# checkAlias() {
-# 	if [[ $(alias cd) == "cd='source cd_history'" ]]; then
-# 		echo -e "\t$CHECKMARK$COLOR_OFF Alias cd is already set correctly, skipping..."
-# 	elif alias cd; then
-# 		echo -e "\tAn alias is already defined for cd."
-# 		echo -e "\tPlease remove that alias so this installation can redfine it to work with cd-history"
-#
-# 		return 1
-# 	else
-# 		# echo -e "\tCreating cd alias (alias cd='source cd_history'..."
-# 		# alias cd="source cd_history"
-# 		echo -e "\tNo existing alias found for cd, safe to source cdh_env in ~/.zshrc"
-# 		echo -e "\tPlease add the following to your ~/.zshrc (or wherever you like to store env variables):"
-# 		echo -e "\t\t source cdh_env"
-# 	fi
-# }
-#
+
 # # Checks if ${HOME}/.local/bin already exists, if not, creates it
 checkLocalBinDir() {
 	if [ ! -d "${HOME}/.local/bin/" ]; then
@@ -65,18 +47,7 @@ checkPath() {
 		echo -e "\t${GREEN_CHECK} The path ~/.local/bin already exists in PATH, skipping..."
 	fi
 }
-#
-# Checks if CD_HISTORY_FILE_PATH env exists already, if not, creates it
-# TODO: Remove if using cdh_env to source in ~/.zshrc
-# checkEnv() {
-# 	if printenv CD_HISTORY_FILE_PATH >/dev/null; then
-# 		echo -e "\t$CHECKMARK$COLOR_OFF Environment variable CD_HISTORY_FILE_PATH already exists, skipping..."
-# 	else
-# 		echo -e "\tCreating env variable CD_HISTORY_FILE_PATH..."
-# 		export CD_HISTORY_FILE_PATH="${HOME}/.cd_history"
-# 	fi
-# }
-#
+
 # Checks if ${HOME}/.cd_history file exists, if not, creates it
 checkCdHistoryFile() {
 	local CD_HISTORY_FILE_PATH="${HOME}/.cd_history"
@@ -90,39 +61,18 @@ checkCdHistoryFile() {
 	fi
 }
 
-# initialization() {
-# 	checkPath
-# 	# checkEnv
-# 	# checkLocalBinDir
-# 	checkCdHistoryFile
-# }
-
 install() {
-
 	cat <./logo.txt
-
 	echo ""
-
 	checkLocalBinDir
 	checkSymLinks
+
 	if [ $? -eq 1 ]; then
 		return 1
 	else
 		checkPath
 		checkCdHistoryFile
 	fi
-	# if [ $? -eq 1 ]; then
-	# 	return 1
-	# else
-	# 	initialization
-	# else
-	# 	checkAlias
-	# 	if [ $? -eq 1 ]; then
-	# 		return 1
-	# 	else
-	# 		initialization
-	# 	fi
-	# fi
 
 	echo -e "\n\tAdd the following into your ~/.zshrc or related config:"
 	echo -e "\n\t\t${GREEN}source cdh_env${COLOR_OFF}"
